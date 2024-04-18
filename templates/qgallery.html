@@ -1,0 +1,29 @@
+{% extends 'layout/base.html' %}
+{% block content %}
+<main>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="row">
+                    {% for item in uploads %}
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <img class="card-img" src="{{item.path}}" alt="{{item.id}}" height="300" />
+                            <div class="card-footer d-flex">
+
+                                <a href="/download/{{item.id}}" class="btn btn-outline-info  ms-auto">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="/delete/q/{{item.id}}" class="btn btn-outline-danger ms-1">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

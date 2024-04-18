@@ -1,35 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from werkzeug.utils import secure_filename
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Double
-from datetime import datetime
-
-# SQLAlchemy setup
-Base = declarative_base()
-
-class Upload(Base):
-    __tablename__ = 'uploads'
-    id = Column(Integer, primary_key=True)
-    size = Column(Double(precision=2))
-    path = Column(String(255))
-    created_at = Column(DateTime, default=datetime.now)
-
-# Utility functions
-def get_db_session():
-    engine = create_engine('sqlite:///CQUK.db')
-    Session = sessionmaker(bind=engine)
-    return Session()
-
-def save_to_db(obj):
-    session = get_db_session()
-    session.add(obj)
-    session.commit()
-    session.close()
+from helper import ImageQuantizer
+from matplotlib.image import imread
+from database import *
+import os
 
 # Flask setup
 app = Flask(__name__)
+app.secret_key = "top5"
 
 @app.route('/')
 def index():
@@ -46,26 +24,82 @@ def upload():
         filename = secure_filename(file.filename)
         path = "static/uploads/"
         file.save(path+filename)  # Save the file
-        upload_obj = Upload(size=file.content_length, path="/"+path+filename)
+        size = os.path.getsize(path+filename)
+        upload_obj = Upload(size=size, path="/"+path+filename)
         save_to_db(upload_obj)  # Save upload info to the database
-        return redirect(url_for('upload_success'))
+        return redirect(url_for('gallery'))
 
-@app.route('/upload_success')
-def upload_success():
+@app.route('/gallery')
+def gallery():
     db = get_db_session()
     uploads = db.query(Upload).all()
-    return render_template('upload.html', uploads=uploads)
+    return render_template('gallery.html', uploads=uploads)
+
+@app.route('/quantized/gallery')
+def quantized_gallery():
+    db = get_db_session()
+    results = db.query(Result).all()
+    return render_template('qgallery.html', uploads=results)
 
 @app.route('/quantize/<int:id>', methods=['GET', 'POST'])
 def quantize(id):
-    return redirect("/quantize/success")
+    db = get_db_session()
+    try:
+        upload = db.query(Upload).get(id)  
+        custom_image = imread(upload.path[1:])
+        quantizer = ImageQuantizer(n_colors=64, image_path=upload.path[1:])
+        quantizer.fit(custom_image)
+        output = quantizer.save_results(custom_image)
+        print(output)
+        # save results
+        save_to_db(
+            Result(path="/"+output, size=os.path.getsize(output), ncolors=quantizer.n_colors)
+        )
+        flash("Color quantization on image was successful ", 'success')
+        return redirect("/quantized/gallery")
+    except Exception as e:
+        print("Error:",e)
+        flash(f"Error: {e} ", 'danger')
+        return redirect("/gallery")
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
-def quantize(id):
-    pass
+def delete(id):
+    db = get_db_session()
+    try:
+        upload = db.query(Upload).get(id) 
+        if upload:
+            try: os.unlink(upload.path[1:])
+            except:pass
+            db.query(Upload).filter(Upload.id == id).delete()
+            db.commit()
+            db.close()
+            flash("Image deleted", "success")
+        else:
+            flash("No image found in database", "danger")
+    except Exception as e:
+        print(e)
+    finally:return redirect("/gallery")
+            
+@app.route('/delete/q/<int:id>', methods=['GET', 'POST'])
+def qdelete(id):
+    db = get_db_session()
+    try:
+        upload = db.query(Result).get(id) 
+        if upload:
+            try: os.unlink(upload.path[1:])
+            except Exception as  e:print(e)
+            db.query(Result).filter(Result.id == id).delete()
+            db.commit()
+            db.close()
+            flash("Image deleted", "success")
+        else:
+            flash("No image found in database", "danger")
+    except Exception as e:
+        print(e)
+    finally:return redirect("/quantized/gallery")
 
 @app.route('/download/<int:id>', methods=['GET', 'POST'])
-def quantize(id):
+def download(id):
     pass
 
 if __name__ == '__main__':

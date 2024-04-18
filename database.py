@@ -18,6 +18,7 @@ class Result(Base):
     id = Column(Integer, primary_key=True)
     path = Column(String(255))
     size = Column(Double(precision=2))
+    ncolors = Column(Integer)
     created_at = Column(DateTime, default=datetime.now)
 
 class Log(Base):
