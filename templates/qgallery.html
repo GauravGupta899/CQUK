@@ -7,11 +7,13 @@
                 <div class="row">
                     {% for item in uploads %}
                     <div class="col-md-4 mb-3">
+                        <a href="{{item.path}}" data-lightbox="image-{{item.id}}"
+                            data-title="Image {{item.id}} of {{ item.size|filesizeformat }}">
                         <div class="card">
                             <img class="card-img" src="{{item.path}}" alt="{{item.id}}" height="300" />
                             <div class="card-footer d-flex">
-
-                                <a href="/download/{{item.id}}" class="btn btn-outline-info  ms-auto">
+                                <a href="#" class="btn btn-sm me-auto">Size: {{ item.size|filesizeformat }}</a>
+                                <a href="/download/q/{{item.id}}" class="btn btn-outline-info ms-auto">
                                     <i class="fa fa-download"></i>
                                 </a>
                                 <a href="/delete/q/{{item.id}}" class="btn btn-outline-danger ms-1">
@@ -19,6 +21,7 @@
                                 </a>
                             </div>
                         </div>
+                        </a>
                     </div>
                     {% endfor %}
                 </div>

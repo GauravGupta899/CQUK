@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from werkzeug.utils import secure_filename
 from helper import ImageQuantizer
 from matplotlib.image import imread
@@ -47,7 +47,7 @@ def quantize(id):
     try:
         upload = db.query(Upload).get(id)  
         custom_image = imread(upload.path[1:])
-        quantizer = ImageQuantizer(n_colors=64, image_path=upload.path[1:])
+        quantizer = ImageQuantizer(n_colors=int(request.args.get('colors')), image_path=upload.path[1:])
         quantizer.fit(custom_image)
         output = quantizer.save_results(custom_image)
         print(output)
@@ -100,7 +100,24 @@ def qdelete(id):
 
 @app.route('/download/<int:id>', methods=['GET', 'POST'])
 def download(id):
-    pass
+    db = get_db_session()
+    try:
+        upload = db.query(Upload).get(id)
+        send_file(upload.path[1:] )
+        return redirect('/gallery') 
+    except Exception as e:
+        print(e)
+
+@app.route('/download/q/<int:id>', methods=['GET', 'POST'])
+def qdownload(id):
+    db = get_db_session()
+    try:
+        img = db.query(Result).get(id)
+        send_file(img.path[1:] )
+        return redirect('/quantized/gallery') 
+    except Exception as e:
+        print(e)
+    
 
 if __name__ == '__main__':
     app.run(debug=True)

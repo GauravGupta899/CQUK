@@ -58,9 +58,9 @@ class ImageQuantizer:
         quantized_image_kmeans = self.recreate_image(self.kmeans.cluster_centers_, self.labels, w, h)
         # plt.imshow(quantized_image_kmeans)
         # # save image 
-        plt.imsave(self.save_folder+self.original, quantized_image_kmeans)
+        plt.imsave(f"{self.save_folder}{self.n_colors}_{self.original}", quantized_image_kmeans)
 
-        return self.save_folder+self.original
+        return f"{self.save_folder}{self.n_colors}_{self.original}"
 
        
 # Example usage

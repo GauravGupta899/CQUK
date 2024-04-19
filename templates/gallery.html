@@ -1,70 +1,72 @@
-<!doctype html>
-<html lang="en">
+{% extends 'layout/base.html' %}
+{% block css %}
+<style>
+    .colors {
+        border: none;
+        border-radius: .5rem;
+        padding-left: 1rem;
+        box-sizing: border-box;
+        width: 4rem;
 
-<head>
-    <title>Uploads Gallery</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    }
+</style>
+{% endblock %}
 
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
-    <!-- FontAwesome 6.2.0 CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% block content %}
+<main>
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-12 mx-auto">
+                <div class="row">
+                    {% for item in uploads %}
 
-    <!-- (Optional) Use CSS or JS implementation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
-        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-</head>
-
-<body data-bs-theme="dark">
-    <header>
-        <!-- place navbar here -->
-    </header>
-    <main>
-        <div class="container my-5">
-            <div class="row">
-                <div class="col-md-12 mx-auto">
-                    <div class="row">
-                        {% for item in uploads %}
-                        <div class="col-md-4 mb-3">
-                            <div class="card">
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="{{item.path}}" data-lightbox="image"
+                                data-title="Image {{item.id}} of {{ item.size|filesizeformat }}">
                                 <img class="card-img" src="{{item.path}}" alt="{{item.id}}" height="300" />
-                                <div class="card-footer d-flex">
-                                    <a href="/quantize/{{item.id}}" class="btn btn-outline-info">Compress  
-                                        <i class="fa fa-circle"></i>
-                                    </a>
-                                    <a href="/download/{{item.id}}" class="btn btn-outline-info  ms-auto">  
-                                        <i class="fa fa-download"></i>
-                                    </a>
-                                    <a href="/delete/{{item.id}}" class="btn btn-outline-danger ms-1">  
-                                        <i class="fa fa-trash"></i>
-                                    </a>
-                                </div>
+                            </a>
+                            <div class="card-footer d-flex">
+                                <a href="#" class="btn me-auto">Size: {{ item.size|filesizeformat }}</a>
+                                <form action="/quantize/{{item.id}}"
+                                    class="row align-items-center">
+                                    <div class="col">
+                                        <input class="colors ms-auto" type="number" name="colors" max="256" min="2"
+                                            placeholder="colors" value="64" title="Number of colors to quantize">
+                                        <button class="btn btn-outline-info ms-1" title="compress">
+                                          <i class="fa fa-compress"></i>
+                                        </input>
+                                    </div>
+                                </form>
+                                <a href="/download/{{item.id}}" class="btn btn-outline-info ms-1">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                                <a href="/delete/{{item.id}}" class="btn btn-outline-danger ms-1">
+                                    <i class="fa fa-trash"></i>
+                                </a>
                             </div>
                         </div>
-                        {% endfor %}
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
+    </div>
+</main>
+<script>
+    function quantize(event) {
+        event.preventDefault(); // Prevent the default behavior of the link
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"></script>
-</body>
 
-</html>
+        var link = event.target.parentElement;
+        var colorInput = link.previousElementSibling.value;
+        alert(colorInput)
+        // Update the URL of the anchor tag
+        var updatedURL = link.href + "?color=" + colorInput;
+        link.href = updatedURL;
+
+        // Redirect to the updated URL
+        // window.location.href = updatedURL;
+    }
+</script>
+{% endblock %}
