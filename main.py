@@ -103,7 +103,7 @@ def download(id):
     db = get_db_session()
     try:
         upload = db.query(Upload).get(id)
-        send_file(upload.path[1:] )
+        return send_file(upload.path[1:], download_name=os.path.basename(upload.path[1:]),as_attachment=True)
         return redirect('/gallery') 
     except Exception as e:
         print(e)
@@ -113,8 +113,8 @@ def qdownload(id):
     db = get_db_session()
     try:
         img = db.query(Result).get(id)
-        send_file(img.path[1:] )
-        return redirect('/quantized/gallery') 
+        return send_file(img.path[1:],download_name=os.path.basename(img.path[1:]),as_attachment=True )
+        
     except Exception as e:
         print(e)
     
