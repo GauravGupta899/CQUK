@@ -5,6 +5,7 @@ from matplotlib.image import imread
 from database import *
 import os
 
+
 # Flask setup
 app = Flask(__name__)
 app.secret_key = "top5"
@@ -117,7 +118,7 @@ def qdownload(id):
         
     except Exception as e:
         print(e)
-    
+
 
 if __name__ == '__main__':
     app.run(debug=True)

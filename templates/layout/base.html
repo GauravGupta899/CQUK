@@ -1,12 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Quantization using K-means</title>
     <!-- Bootstrap CSS v5.2.1 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
@@ -15,15 +13,25 @@
         integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!-- (Optional) Use CSS or JS implementation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/js/all.min.js"
-        integrity="sha512-naukR7I+Nk6gp7p5TMA4ycgfxaZBJ7MO5iC3Fp6ySQyKFHOGfpkSZkYVWV5R7u7cfAicxanwYQ5D1e17EfJcMA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.css"
         integrity="sha512-Woz+DqWYJ51bpVk5Fv0yES/edIMXjj3Ynda+KWTIkGoynAMHrqTcDUQltbipuiaD5ymEo9520lyoVOo9jCQOCA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+        
+    <style>
+       
+
+        footer {
+            background-color: #fefefe;
+            /* Dark grey footer */
+            color: #000000;
+            /* White text */
+            text-align: center;
+            padding: 20px 0;
+        }
+            
+
+    </style>
 
     {% block css %}{% endblock %}
 </head>
@@ -35,6 +43,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/" aria-current="page">Home</a>
                 </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="/gallery">Upload</a>
                 </li>
@@ -47,15 +56,86 @@
                 </li>
             </ul>
         </nav>
-
-
-
     </header>
-    {% block content %}{% endblock %}
+    
 
-    <footer>
-        <!-- place footer here -->
+    <div class="container">
+        
+        
+
+        {% block content %}
+       
+        {% endblock %}
+    </div>
+    
+
+
+    <footer style="color: black;">
+
+
+        <section>
+
+            <div class="container">
+            <p> <li>Click the “<b>Choose Images</b>” button to upload your images.</li>
+            <li>Click the "<b>Compress</b>" button to start compressing.</li>
+            <li>Once the status change to "Done" click the "<b>Download</b>" button.</li></p>
+        
+    </div>
+
+        </section>
+        <div class="usp row">
+            <div class="usp-card col-md-4">
+                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
+                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <circle cx="12" cy="8" r="7"></circle>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                    </svg></div>
+                <div>
+                    <h2>Best Compression</h2>
+                    <p>We apply lossy algorithms to reduce image size by up to 80% while preserving image quality.
+                        Supports JPG, PNG, and GIF formats.</p>
+                </div>
+            </div>
+            <div class="usp-card col-md-4">
+                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
+                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg></div>
+                <div>
+                    <h2>Easy to Use</h2>
+                    <p>Simply upload your images and hit compress! We'll do our magic in seconds. You can also batch
+                        compress image files.</p>
+                </div>
+            </div>
+            <div class="usp-card col-md-4">
+                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
+                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg></div>
+                <div>
+                    <h2>Free &amp; Secure</h2>
+                    <p>This Image Compressor is free and works on any web browser. Plus, all files are protected with
+                        256-bit SSL encryption and deleted automatically after a few hours. Your file security and
+                        privacy are guaranteed.</p>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div> <br data-v-7ed68111>
+        <div class="row" data-v-7ed68111>
+            <div class="col-md-12" data-v-7ed68111>
+                <div class="content-card-html" data-v-7ed68111>
+                    <section class="layout__section--elevated content-html__plain">
+                        <div class="content-html">
+                            <p> Now using the best compression settings to reduce image size even more!<br><br></p>
+                            <p>
+
+                                <br>
+                            </p>
     </footer>
+
+
     <!-- Bootstrap JavaScript Libraries -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
@@ -72,11 +152,12 @@
         integrity="sha512-Ixzuzfxv1EqafeQlTCufWfaC6ful6WFqIz4G+dWvK0beHw0NVJwvCKSgafpy5gwNqKmgUfIBraVwkKI+Cz0SEQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script>
-            lightbox.option({
-                'showImageNumberLabel':false
-            })
-        </script>
+    <script>
+        lightbox.option({
+            'showImageNumberLabel': false
+        })
+    </script>
+
     {% block js %}{% endblock %}
 </body>
 
