@@ -7,16 +7,20 @@
     /* Custom CSS for your project */
     body {
         background-image: url('https://static.vecteezy.com/system/resources/previews/023/425/793/original/illustration-simple-seamless-letter-y-pattern-with-black-color-in-transparent-background-alphabet-y-pattern-background-texture-free-vector.jpg');
-        background-size: cover;
-        background-position: center;
         background-repeat: no-repeat;
-        /* Light grey background */
-        font-family: 'Source Sans Pro', sans-serif;
+        background-size: cover; /* Ensure the background covers the entire viewport */
+        background-attachment: fixed; /* Keep the background fixed while scrolling */
+        position: relative; /* Ensure proper stacking order with other elements */
     }
-</style> 
-   
+
+    
+</style>
 {% endblock %}
-<main >
+
+<main>
+    <!-- GIF overlay -->
+    <div class="gif-overlay"></div>
+
     <div class="container my-5">
         <div class="row">
             <div class="col-md-4 mx-auto">

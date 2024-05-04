@@ -19,8 +19,6 @@
 
         
     <style>
-       
-
         footer {
             background-color: #fefefe;
             /* Dark grey footer */
@@ -29,11 +27,37 @@
             text-align: center;
             padding: 20px 0;
         }
-            
 
+        .footer-animation {
+            animation: slideInFromLeft 1s ease forwards;
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .usp-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #e9e7ee;
+            border-radius: 10px;
+        }
+
+        .usp-card__icon {
+            margin-bottom: 10px;
+        }
     </style>
 
-    {% block css %}{% endblock %}
+    {% block css %}
+    
+    {% endblock %}
 </head>
 
 <body data-bs-theme="dark">
@@ -57,6 +81,8 @@
             </ul>
         </nav>
     </header>
+
+    
     
 
     <div class="container">
@@ -75,52 +101,27 @@
 
         <section>
 
-            <div class="container">
-            <p> <li>Click the “<b>Choose Images</b>” button to upload your images.</li>
-            <li>Click the "<b>Compress</b>" button to start compressing.</li>
-            <li>Once the status change to "Done" click the "<b>Download</b>" button.</li></p>
-        
-    </div>
+           
 
         </section>
-        <div class="usp row">
-            <div class="usp-card col-md-4">
-                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
-                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <circle cx="12" cy="8" r="7"></circle>
-                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
-                    </svg></div>
-                <div>
-                    <h2>Best Compression</h2>
-                    <p>We apply lossy algorithms to reduce image size by up to 80% while preserving image quality.
-                        Supports JPG, PNG, and GIF formats.</p>
-                </div>
-            </div>
-            <div class="usp-card col-md-4">
-                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
-                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                    </svg></div>
-                <div>
-                    <h2>Easy to Use</h2>
-                    <p>Simply upload your images and hit compress! We'll do our magic in seconds. You can also batch
-                        compress image files.</p>
-                </div>
-            </div>
-            <div class="usp-card col-md-4">
-                <div class="usp-card__icon"><svg viewBox="0 0 24 24" width="56" height="56" stroke="#ffffff"
-                        stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg></div>
-                <div>
-                    <h2>Free &amp; Secure</h2>
-                    <p>This Image Compressor is free and works on any web browser. Plus, all files are protected with
-                        256-bit SSL encryption and deleted automatically after a few hours. Your file security and
-                        privacy are guaranteed.</p>
-                </div>
-            </div>
+        <div class="usp-card">
+            <div class="usp-card__icon"><i class="fas fa-compress"></i></div>
+            <h2>Best Compression</h2>
+            <p>We apply K-means algorithms to reduce image size by up to 80% while preserving image quality.
+                Supports JPG, PNG formats.</p>
         </div>
+        <div class="usp-card">
+            <div class="usp-card__icon"><i class="fas fa-upload"></i></div>
+            <h2>Easy to Use</h2>
+            <p>Simply upload your images and hit compress! We'll do our magic in seconds. You can also batch
+                compress image files.</p>
+        </div>
+        <div class="usp-card">
+            <div class="usp-card__icon"><i class="fas fa-lock"></i></div>
+            <h2>Free & Secure</h2>
+            <p>This Image Compressor is free and works on any web browser. Plus, all files are protected with
+                256-bit SSL encryption and deleted automatically after a few hours. Your file security and
+                privacy are guaranteed.</p>
         </div>
         </div> <br data-v-7ed68111>
         <div class="row" data-v-7ed68111>
@@ -129,10 +130,11 @@
                     <section class="layout__section--elevated content-html__plain">
                         <div class="content-html">
                             <p> Now using the best compression settings to reduce image size even more!<br><br></p>
-                            <p>
-
-                                <br>
-                            </p>
+                            <p>Terms & Conditions | Privacy Policy | Contact</p>
+                            <p>For any inquiries, please contact us at <a href="mailto:info@colorquantizer.com">info@colorquantizer.com</a>.</p>
+                    
+                        
+                            
     </footer>
 
 
