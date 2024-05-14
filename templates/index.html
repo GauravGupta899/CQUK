@@ -5,12 +5,20 @@
 {% block css %}
 <style>
     /* Custom CSS for your project */
+    .gif-overlay{
+        height: 100vh;  
+    }
+
+     
+
+     
+    
     body {
         background-image: url('https://static.vecteezy.com/system/resources/previews/023/425/793/original/illustration-simple-seamless-letter-y-pattern-with-black-color-in-transparent-background-alphabet-y-pattern-background-texture-free-vector.jpg');
         background-repeat: no-repeat;
         background-size: cover; /* Ensure the background covers the entire viewport */
-        background-attachment: fixed; /* Keep the background fixed while scrolling */
-        position: relative; /* Ensure proper stacking order with other elements */
+          /* Keep the background fixed while scrolling */
+          /* Ensure proper stacking order with other elements */
     }
 
     
@@ -18,14 +26,20 @@
 {% endblock %}
 
 <main>
+ 
+     
+     
+
+
     <!-- GIF overlay -->
-    <div class="gif-overlay"></div>
+     
+    <div class="gif-overlay ">
 
     <div class="container my-5">
-        <div class="row">
-            <div class="col-md-4 mx-auto">
+        <div class="row justify-content-center">
+            <div class="col-md-5 mx-auto">
                 <div class="row">
-                    <div class="card mb-3">
+                    <div class="card mb-5">
                         <div class="card-body">
                             <h2>Color Quantization</h2>
                             <div class="help-text">using kmeans</div>
@@ -43,5 +57,6 @@
             </div>
         </div>
     </div>
+</div>
 </main>
 {% endblock %}

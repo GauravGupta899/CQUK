@@ -1,3 +1,4 @@
+ 
 from flask import Flask, render_template, request, redirect, url_for, flash, send_file
 from werkzeug.utils import secure_filename
 from helper import ImageQuantizer
@@ -56,11 +57,14 @@ def quantize(id):
         save_to_db(
             Result(path="/"+output, size=os.path.getsize(output), ncolors=quantizer.n_colors)
         )
-        flash("Color quantization on image was successful ", 'success')
+        save_to_db(Log(message="Color quantization on image was successful", status='success') )
+        flash(f"Color quantization on image: {upload.path} was successful", 'success')
         return redirect("/quantized/gallery")
     except Exception as e:
         print("Error:",e)
-        flash(f"Error: {e} ", 'danger')
+        save_to_db(Log(message=f"Error: {e} ", status='danger') )
+        flash(f"Error: {e} ", 'danger') 
+        
         return redirect("/gallery")
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
@@ -74,8 +78,10 @@ def delete(id):
             db.query(Upload).filter(Upload.id == id).delete()
             db.commit()
             db.close()
+            save_to_db(Log(message="Image deleted", status='success') )
             flash("Image deleted", "success")
         else:
+            save_to_db(Log(message=f"No image found in database @ {upload.path}", status='danger') )
             flash("No image found in database", "danger")
     except Exception as e:
         print(e)
@@ -92,8 +98,10 @@ def qdelete(id):
             db.query(Result).filter(Result.id == id).delete()
             db.commit()
             db.close()
+            save_to_db(Log(message=f"Quantized Image deleted: {upload.path}", status='success') )
             flash("Image deleted", "success")
         else:
+            save_to_db(Log(message=f"No image found in database @ {upload.path}", status='danger') )
             flash("No image found in database", "danger")
     except Exception as e:
         print(e)
@@ -104,8 +112,8 @@ def download(id):
     db = get_db_session()
     try:
         upload = db.query(Upload).get(id)
+        save_to_db(Log(message=f"Original Image downloaded: {upload.path}", status='success') )
         return send_file(upload.path[1:], download_name=os.path.basename(upload.path[1:]),as_attachment=True)
-        return redirect('/gallery') 
     except Exception as e:
         print(e)
 
@@ -114,11 +122,19 @@ def qdownload(id):
     db = get_db_session()
     try:
         img = db.query(Result).get(id)
+        save_to_db(Log(message=f"Quantized Image downloaded: {img.path}", status='success') )
         return send_file(img.path[1:],download_name=os.path.basename(img.path[1:]),as_attachment=True )
         
     except Exception as e:
         print(e)
 
 
+@app.route('/logs')
+def logs():
+    db = get_db_session()
+    logs = db.query(Log).all()
+    return render_template('logs.html', logs=logs)
+
 if __name__ == '__main__':
     app.run(debug=True)
+    main()
